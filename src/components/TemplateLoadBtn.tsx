@@ -11,11 +11,17 @@ const TemplateLoadBtn = ({onChoose}: TemplateLoadBtnProps) => {
   const [open, setOpen] = useState<boolean>(false)
   const [tab, setTab] = useState<"msg" | "gif">("msg")
   const [templates, setTemplates] = useState<TemplateMsg[]>([])
+  const [text, setText] = useState<string>("")
+
+  const handleChooseTemplate = useCallback((msg: string) => {
+    setText(msg)
+    setTab("gif")
+  }, [])
 
   const handleChoose = useCallback((msg: string) => {
-    onChoose(msg)
+    onChoose(text + "\n" + msg)
     setOpen(false)
-  }, [onChoose])
+  }, [onChoose, text])
 
   useEffect(() => {
     fetch("https://raw.githubusercontent.com/chunlaw/lihkg-suey/main/data/msg.json")
@@ -46,7 +52,7 @@ const TemplateLoadBtn = ({onChoose}: TemplateLoadBtnProps) => {
         <DialogContent>
           <Box display="flex" width="100%" flexDirection="column">
             {tab === "msg" && templates.map(({id, type, msg}) => (
-              <Box key={id} display="flex" flexDirection="column" sx={rowSx} onClick={() => handleChoose(msg)}>
+              <Box key={id} display="flex" flexDirection="column" sx={rowSx} onClick={() => handleChooseTemplate(msg)}>
                 <Typography>{msg}</Typography>
                 <Box>
                   <Chip label={type} size="small" />
