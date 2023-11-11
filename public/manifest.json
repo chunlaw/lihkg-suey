@@ -4,7 +4,7 @@
   "version": "0.1",
   "manifest_version": 3,
   "action": {
-    "default_icon": "logo-256.png",
+    "default_icon": "catReply_512x512.png",
     "default_popup": "popup.html"
   },
   "content_scripts": [
@@ -12,5 +12,10 @@
       "matches": ["https://lihkg.com/*"],
       "js": ["assets/index.js"]
     }
-  ]
+  ],
+  "icons": {
+    "16": "catReply_16.png",
+    "48": "catReply_48.png",
+    "128": "catReply_128.png"
+  }
 }
