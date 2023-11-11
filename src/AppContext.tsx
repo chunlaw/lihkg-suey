@@ -36,6 +36,9 @@ export default AppContext;
 
 const darkTheme = createTheme({
   palette: {
+    primary: {
+      main: '#fbc308',
+    },
     mode: 'dark'
   }
 })
