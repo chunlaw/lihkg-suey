@@ -17,6 +17,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     if ( getComputedStyle(document.body).color === 'rgb(255, 255, 255)' ) {
       return darkTheme
     }
+    // return darkTheme
     return lightTheme
   }, [])
 

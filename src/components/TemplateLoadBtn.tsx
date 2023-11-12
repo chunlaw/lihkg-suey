@@ -1,5 +1,5 @@
 import { Dialog, DialogTitle, Button, DialogContent, Box, Typography, Chip, SxProps, Theme, Tabs, Tab } from "@mui/material"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { QuickreplyOutlined as QuickreplyOutlinedIcon } from "@mui/icons-material"
 import GifBox from "./GifBox"
 
@@ -12,6 +12,7 @@ const TemplateLoadBtn = ({onChoose}: TemplateLoadBtnProps) => {
   const [tab, setTab] = useState<"msg" | "gif">("msg")
   const [templates, setTemplates] = useState<TemplateMsg[]>([])
   const [text, setText] = useState<string>("")
+  const [typesLabel, setTypesLabel] = useState<Record<string, string>>({})
   const [filter, setFilter] = useState<string[]>([])
 
   const handleChooseTemplate = useCallback((msg: string) => {
@@ -36,6 +37,11 @@ const TemplateLoadBtn = ({onChoose}: TemplateLoadBtnProps) => {
       .then(r => r.json())
       .then(r => {
         setTemplates(shuffle(r))
+      })
+    fetch("https://raw.githubusercontent.com/chunlaw/lihkg-suey/main/data/typesLabel.json")
+      .then(r => r.json())
+      .then(r => {
+        setTypesLabel(r)
       })
   }, [])
 
@@ -62,13 +68,14 @@ const TemplateLoadBtn = ({onChoose}: TemplateLoadBtnProps) => {
         <DialogContent>
           <Box display="flex" width="100%" flexDirection="column">
             {tab === "msg" && (
-              <Box>
+              <Box display="flex" gap={1}>
                 {Object.entries(typesLabel).map(([type, label]) => (
                   <Chip 
                     key={type} 
                     label={label} 
                     onClick={() => {toggleFilter(type)}} 
                     color={filter.includes(type) ? "success" : "default"}
+                    sx={{backdropFilter: "brightness(80%)"}}
                   />
                 ))}
               </Box>
@@ -118,10 +125,4 @@ function shuffle<T>(array: T[]) {
   }
 
   return result;
-}
-
-const typesLabel = {
-  "百搭": "👍🏻",
-  "工作": "💼",
-  "愛情": "❤️",
 }
