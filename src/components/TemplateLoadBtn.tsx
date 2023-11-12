@@ -12,6 +12,7 @@ const TemplateLoadBtn = ({onChoose}: TemplateLoadBtnProps) => {
   const [tab, setTab] = useState<"msg" | "gif">("msg")
   const [templates, setTemplates] = useState<TemplateMsg[]>([])
   const [text, setText] = useState<string>("")
+  const [filter, setFilter] = useState<string[]>([])
 
   const handleChooseTemplate = useCallback((msg: string) => {
     setText(msg)
@@ -22,6 +23,13 @@ const TemplateLoadBtn = ({onChoose}: TemplateLoadBtnProps) => {
     onChoose(text + "\n" + msg)
     setOpen(false)
   }, [onChoose, text])
+
+  const toggleFilter = useCallback((filter: string) => {
+    setFilter(prev => {
+      if ( prev.includes(filter) ) return prev.filter(v => v !== filter)
+      return [...prev, filter]
+    })
+  }, [])
 
   useEffect(() => {
     fetch("https://raw.githubusercontent.com/chunlaw/lihkg-suey/main/data/msg.json")
@@ -39,6 +47,8 @@ const TemplateLoadBtn = ({onChoose}: TemplateLoadBtnProps) => {
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
+        maxWidth="md"
+        fullWidth
       >
         <DialogTitle>
           <Tabs
@@ -51,7 +61,19 @@ const TemplateLoadBtn = ({onChoose}: TemplateLoadBtnProps) => {
         </DialogTitle>
         <DialogContent>
           <Box display="flex" width="100%" flexDirection="column">
-            {tab === "msg" && templates.map(({id, type, msg}) => (
+            {tab === "msg" && (
+              <Box>
+                {Object.entries(typesLabel).map(([type, label]) => (
+                  <Chip 
+                    key={type} 
+                    label={label} 
+                    onClick={() => {toggleFilter(type)}} 
+                    color={filter.includes(type) ? "success" : "default"}
+                  />
+                ))}
+              </Box>
+            )}
+            {tab === "msg" && templates.filter(({type}) => filter.length === 0 || filter.includes(type)).map(({id, type, msg}) => (
               <Box key={id} display="flex" flexDirection="column" sx={rowSx} onClick={() => handleChooseTemplate(msg)}>
                 <Typography>{msg}</Typography>
                 <Box>
@@ -96,4 +118,10 @@ function shuffle<T>(array: T[]) {
   }
 
   return result;
+}
+
+const typesLabel = {
+  "百搭": "👍🏻",
+  "工作": "💼",
+  "愛情": "❤️",
 }

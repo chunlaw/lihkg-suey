@@ -23,13 +23,13 @@ const GifBox = ({ onChoose }: GifBoxProps) => {
   }, [])
 
   return (
-    <Box width={400} height={500} sx={{position: "relative"}}>
-      <Box width={400} height={500} overflow="scroll">
+    <Box width={860} height={500} position="relative" textAlign="center">
+      <Box width={860} height={500} overflow="scroll" marginX="auto">
         <Grid
           onGifClick={handleClick}
           fetchGifs={fetchGifs}
-          width={400}
-          columns={3}
+          width={860}
+          columns={6}
           gutter={6}
         />
       </Box>
