@@ -1,6 +1,6 @@
-import { Dialog, DialogTitle, Button, DialogContent, Box, Typography, Chip, SxProps, Theme, Tabs, Tab } from "@mui/material"
-import { useCallback, useEffect, useMemo, useState } from "react"
 import { QuickreplyOutlined as QuickreplyOutlinedIcon } from "@mui/icons-material"
+import { Box, Button, Chip, Dialog, DialogContent, DialogTitle, SxProps, Tab, Tabs, Theme, Typography } from "@mui/material"
+import { useCallback, useEffect, useState } from "react"
 import GifBox from "./GifBox"
 
 interface TemplateLoadBtnProps {
