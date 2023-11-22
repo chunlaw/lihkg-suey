@@ -22,6 +22,7 @@ const TemplateLoadBtn = ({onChoose}: TemplateLoadBtnProps) => {
 
   const handleChoose = useCallback((msg: string) => {
     onChoose(text + "\n" + msg)
+    setText("")
     setOpen(false)
   }, [onChoose, text])
 
